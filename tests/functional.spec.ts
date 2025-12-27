@@ -344,6 +344,60 @@ test.describe('Functional Tests', () => {
         await expect(cartItem).toBeVisible();
     });
 
+    test('TC15 - Block add to cart if not logged in', async ({ page }) => {
+
+        const homePage = new HomePage(page);
+        const productPage = new ProductPage(page);
+        const cartPage = new CartPage(page);
+
+        await homePage.openHomePage();
+
+        const productName = 'Nexus 6';
+
+        await homePage.selectProductByName(productName);
+        await expect(productPage.productName).toBeVisible();
+
+        const dialogPromise = page.waitForEvent('dialog');
+        await productPage.addToCart();
+
+        const dialog = await dialogPromise;
+        expect(dialog.message()).toMatch(/Please log in to add items to your cart/i);
+        await dialog.accept();
+    });
+
+    test('TC16 - Attempt purchase cart is empty', async ({ page }) => {
+
+        const homePage = new HomePage(page);
+        const cartPage = new CartPage(page);
+
+        await homePage.openHomePage();
+        await cartPage.openCart();
+
+        const itemsCount = await cartPage.getItemsCount();
+        expect(itemsCount).toBe(0);
+
+        await cartPage.placeOrder();
+
+        await cartPage.fillPlaceOrderForm({
+            name: 'MUJKE Tester',
+            country: 'Bosnia',
+            city: 'Vogosca',
+            card: '1234567890',
+            month: '12',
+            year: '2025',
+        });
+
+        const errorMessage = page.locator('.modal-title:has-text("No items in cart")');
+        await expect(errorMessage).toBeVisible();
+
+        await page.locator('button:has-text("OK")').click({ timeout: 10000 });
+    });
+
+
+
+
+
+
     test.afterEach(async ({ page, context }) => {
         await page.evaluate(() => {
             localStorage.clear();
