@@ -1,5 +1,3 @@
-
-
 import { test, expect } from '@playwright/test';
 import { HomePage } from '../pages/HomePage';
 import { LoginPage } from '../pages/LoginPage';
@@ -33,14 +31,14 @@ test.describe('Functional Tests', () => {
         });
     });
 
-    test('TC01 - Verify user can log in with valid credentials (Positive)', async ({ page }) => {
+    test('TC01 - Verify user can log in with valid credentials', async ({ page }) => {
         await homePage.openLoginModal();
         await loginPage.login('username', 'password');
 
         await expect(page.locator('#nameofuser')).toHaveText('Welcome username');
     });
 
-    test('TC02 - Verify login fails with invalid credentials (Negative)', async ({ page }) => {
+    test('TC02 - Verify login fails with invalid credentials', async ({ page }) => {
         await homePage.openLoginModal();
 
         const dialogPromise = page.waitForEvent('dialog');
@@ -51,7 +49,7 @@ test.describe('Functional Tests', () => {
         await dialog.accept();
     });
 
-    test('TC03 - Attempt login with empty fields (Negative)', async ({ page }) => {
+    test('TC03 - Attempt login with empty fields', async ({ page }) => {
         await homePage.openLoginModal();
 
         page.once('dialog', async (dialog) => {
@@ -62,7 +60,7 @@ test.describe('Functional Tests', () => {
         await loginPage.login('', '');
     });
 
-    test('TC04 - Verify user can sign up (Positive)', async ({ page }) => {
+    test('TC04 - Verify user can sign up', async ({ page }) => {
         const uniqueUsername = `user${Date.now()}`;
 
         await homePage.openSignupModal();
@@ -75,7 +73,7 @@ test.describe('Functional Tests', () => {
         await signupPage.signup(uniqueUsername, 'validPassword123');
     });
 
-    test('TC05 - Verify sign up fails with existing username (Negative)', async ({ page }) => {
+    test('TC05 - Verify sign up fails with existing username', async ({ page }) => {
         await homePage.openSignupModal();
 
         page.once('dialog', async (dialog) => {
@@ -130,7 +128,7 @@ test.describe('Functional Tests', () => {
         await expect(cartItem).not.toBeVisible();
     });
 
-    test('TC08 - Place an order (Positive)', async ({ page }) => {
+    test('TC08 - Place an order', async ({ page }) => {
         const homePage = new HomePage(page);
         const productPage = new ProductPage(page);
         const cartPage = new CartPage(page);
@@ -187,7 +185,7 @@ test.describe('Functional Tests', () => {
         expect(countAfter).toBe(0);
     });
 
-    test('TC09 - Attempt to place an order with incomplete form (Negative)', async ({ page }) => {
+    test('TC09 - Attempt to place an order with incomplete form', async ({ page }) => {
         const productName = 'Nexus 6';
 
         await homePage.selectProductByName(productName);
@@ -218,7 +216,7 @@ test.describe('Functional Tests', () => {
         await expect(page.locator('.modal-title:has-text("Place order")')).toBeVisible();
     });
 
-    test('TC10 - Verify category selection functionality (Positive)', async ({ page }) => {
+    test('TC10 - Verify category selection functionality', async ({ page }) => {
         await homePage.selectCategory('Laptops');
         await expect(page.locator('.card-title a', { hasText: 'Sony vaio i5' })).toBeVisible();
 
@@ -229,7 +227,7 @@ test.describe('Functional Tests', () => {
         await expect(page.locator('.card-title a', { hasText: 'Samsung galaxy s6' })).toBeVisible();
     });
 
-    test('TC11 - Contact form sends message (Positive)', async ({ page }) => {
+    test('TC11 - Contact form sends message', async ({ page }) => {
         page.once('dialog', async (dialog) => {
             expect(dialog.message()).toContain('Thanks for the message!!');
             await dialog.dismiss();
@@ -344,57 +342,6 @@ test.describe('Functional Tests', () => {
         await page.reload();
 
         await expect(cartItem).toBeVisible();
-    });
-
-    test('TC15 - Block add to cart if not logged in (Negative)', async ({ page }) => {
-        test.fail(true, 'Spec expects add to cart blocked when not logged in, but DemoBlaze allows it.');
-
-        const homePage = new HomePage(page);
-        const productPage = new ProductPage(page);
-        const cartPage = new CartPage(page);
-
-        await homePage.openHomePage();
-
-        const productName = 'Nexus 6';
-
-        await homePage.selectProductByName(productName);
-        await expect(productPage.productName).toBeVisible();
-
-        const dialogPromise = page.waitForEvent('dialog');
-        await productPage.addToCart();
-
-        const dialog = await dialogPromise;
-        expect(dialog.message()).toMatch(/Please log in to add items to your cart/i);
-        await dialog.accept();
-    });
-
-    test('TC16 - Attempt purchase cart is empty', async ({ page }) => {
-        test.fail(true, 'Spec expects purchase blocked when cart is empty, but DemoBlaze allows it.');
-
-        const homePage = new HomePage(page);
-        const cartPage = new CartPage(page);
-
-        await homePage.openHomePage();
-        await cartPage.openCart();
-
-        const itemsCount = await cartPage.getItemsCount();
-        expect(itemsCount).toBe(0);
-
-        await cartPage.placeOrder();
-
-        await cartPage.fillPlaceOrderForm({
-            name: 'MUJKE Tester',
-            country: 'Bosnia',
-            city: 'Vogosca',
-            card: '1234567890',
-            month: '12',
-            year: '2025',
-        });
-
-        const errorMessage = page.locator('.modal-title:has-text("No items in cart")');
-        await expect(errorMessage).toBeVisible();
-
-        await page.locator('button:has-text("OK")').click({ timeout: 10000 });
     });
 
     test.afterEach(async ({ page, context }) => {

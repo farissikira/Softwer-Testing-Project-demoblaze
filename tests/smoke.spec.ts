@@ -1,5 +1,3 @@
-
-
 import { test, expect } from '@playwright/test';
 import { HomePage } from '../pages/HomePage';
 import { LoginPage } from '../pages/LoginPage';
@@ -49,7 +47,7 @@ test.describe('Smoke', () => {
         await clickCategoryAndVerifyProducts('Monitors');
     });
 
-    test('ST04 - product details page opens successfully', async ({ page }) => {
+    test('ST04 - Product details page opens successfully', async ({ page }) => {
         const home = new HomePage(page);
         const product = new ProductPage(page);
 
