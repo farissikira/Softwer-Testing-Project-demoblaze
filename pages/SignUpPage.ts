@@ -20,9 +20,10 @@ export class SignupPage extends BasePage {
     }
 
     async signup(username: string, password: string) {
-        await this.usernameInput.fill(username);
-        await this.passwordInput.fill(password);
-        await this.signupButton.click();
-
-    }
+    await this.usernameInput.waitFor({ state: 'visible', timeout: 10000 });
+    await this.usernameInput.fill(username);
+    await this.passwordInput.fill(password);
+    await this.signupButton.click({ force: true, noWaitAfter: true });
 }
+}
+

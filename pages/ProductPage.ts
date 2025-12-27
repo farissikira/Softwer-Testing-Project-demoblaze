@@ -13,8 +13,8 @@ export class ProductPage extends BasePage {
     }
 
     async addToCart() {
-        await this.addToCartButton.click();
-    }
+    await this.addToCartButton.click({ force: true, noWaitAfter: true });
+}
 
     async getProductName() {
         return await this.productName.textContent();
