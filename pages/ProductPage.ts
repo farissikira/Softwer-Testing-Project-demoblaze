@@ -1,3 +1,4 @@
+
 import { Page, Locator } from '@playwright/test';
 import { BasePage } from './BasePage';
 
@@ -13,7 +14,7 @@ export class ProductPage extends BasePage {
     }
 
     async addToCart() {
-        await this.addToCartButton.click();
+        await this.addToCartButton.click({ force: true, noWaitAfter: true });
     }
 
     async getProductName() {

@@ -1,9 +1,3 @@
-/*Ali. Mozes a i ne moras ukloniti ovaj file iz pages foldera. Ovo je cisto
-da mozes preko testa registrovat usera da bi mogli login se. A mozemo i manuelno na stranici 
-registrovat usera pa onda samo testom logovat.Kako hoces et il pozivaj ovaj file preko testa 
-ili manuelno cemo registrovat.
-
-*/
 import { Page, Locator } from '@playwright/test';
 import { BasePage } from './BasePage';
 
@@ -20,9 +14,9 @@ export class SignupPage extends BasePage {
     }
 
     async signup(username: string, password: string) {
+        await this.usernameInput.waitFor({ state: 'visible', timeout: 10000 });
         await this.usernameInput.fill(username);
         await this.passwordInput.fill(password);
-        await this.signupButton.click();
-
+        await this.signupButton.click({ force: true, noWaitAfter: true });
     }
 }

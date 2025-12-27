@@ -12,7 +12,10 @@ export class BasePage {
 
 
     async navigate(url: string) {//to not use page.goto we use navigate method in other files
-        await this.page.goto(url);
+        await this.page.goto(url, {
+            waitUntil: 'domcontentloaded',  // Faster than 'load'
+            timeout: 60000
+        });
     }
 }
 

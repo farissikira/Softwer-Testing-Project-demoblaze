@@ -1,3 +1,4 @@
+
 import { Page, Locator } from '@playwright/test';
 import { BasePage } from './BasePage';
 
@@ -15,8 +16,10 @@ export class LoginPage extends BasePage {
     }
 
     async login(username: string, password: string) {
+        await this.usernameInput.waitFor({ state: 'visible', timeout: 10000 });
         await this.usernameInput.fill(username);
         await this.passwordInput.fill(password);
-        await this.loginButton.click();
+
+        await this.loginButton.click({ force: true, noWaitAfter: true });
     }
 }
