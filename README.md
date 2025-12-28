@@ -13,6 +13,7 @@ This project contains automated end-to-end tests for the [Demoblaze](https://www
 - [Troubleshooting](#troubleshooting)
 
 ## Project Structure
+```
 .
 ├── pages/                      # Page Object Model classes
 │   ├── BasePage.ts            # Base class for all pages
@@ -30,98 +31,73 @@ This project contains automated end-to-end tests for the [Demoblaze](https://www
 ├── package.json               # Project dependencies
 ├── playwright.config.ts       # Playwright configuration
 └── README.md                  # This file
+```
 
 ## Prerequisites
 Before you begin, ensure you have the following installed:
 - **Node.js** (version 18 or higher)
 - **npm** (comes with Node.js)
 - **Git** (optional, for cloning the repository)
-
 Check your installations:
-
 ```bash
 node --version
 npm --version
 ```
 
-## 🚀 Installation
-
+## Installation
 1. **Clone or download the project** (if not already done)
-
 2. **Navigate to the project directory**
-
 ```bash
 cd Softwer-Testing-Project-demoblaze
 ```
-
 3. **Install dependencies**
-
 ```bash
 npm install
 ```
-
 4. **Install Playwright browsers**
-
 ```bash
 npx playwright install
 ```
-
 This will download Chromium, Firefox, and WebKit browsers required for testing.
 
-## 🧪 Running Tests
-
+## Running Tests
 ### Run All Tests
-
 ```bash
 npx playwright test
 ```
-
 ### Run Specific Test Suite
-
 Run only smoke tests:
 ```bash
 npx playwright test tests/smoke.spec.ts
 ```
-
 Run only functional tests:
 ```bash
 npx playwright test tests/functional.spec.ts
 ```
-
 ### Run Specific Test Case
-
 ```bash
 npx playwright test -g "TC01"
 ```
-
 ### Run Tests in Specific Browser
-
 ```bash
 npx playwright test --project=chromium
 npx playwright test --project=firefox
 npx playwright test --project=webkit
 ```
-
 ### Run Tests in Headed Mode (See Browser)
-
 ```bash
 npx playwright test --headed
 ```
-
 ### Run Tests in UI Mode (Interactive)
-
 ```bash
 npx playwright test --ui
 ```
-
 ### Debug a Specific Test
-
 ```bash
 npx playwright test --debug -g "TC01"
 ```
 
-## 📝 Test Suites
-
+## Test Suites
 ### Smoke Tests (tests/smoke.spec.ts)
 
 Quick validation tests to ensure basic functionality:
