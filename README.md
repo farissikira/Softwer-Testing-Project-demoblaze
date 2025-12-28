@@ -191,7 +191,9 @@ rm -rf test-results playwright-report
 ### Common Issues
 **Issue**: Tests fail with "Cannot read properties of null"
 - **Solution**: Ensure the demoblaze website is accessible and elements are loading
+
 **Issue**: Dialog assertions fail
 - **Solution**: The website uses native JavaScript alerts. Ensure dialog listeners are set up before actions that trigger them
+
 **Issue**: Cart persistence issues
 - **Solution**: Tests use `beforeEach` and `afterEach` hooks to clear storage. Check that these hooks are executing properly
